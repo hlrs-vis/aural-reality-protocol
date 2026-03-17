@@ -1,0 +1,43 @@
+edition = "2023";
+
+package auralreality;
+
+import "utils.proto";
+import "listener.proto";
+import "source.proto";
+import "speaker.proto";
+import "trajectory.proto";
+import "audio_file.proto";
+import "playback_config.proto";
+
+service TMTService {
+  rpc Ping (string) returns (string) {}
+
+  // Modify the single global virtual listener, no list of items
+  rpc GetListener (Empty) returns (Listener) {}
+  rpc UpdateListener (Listener) returns (Listener) {}
+
+  rpc UpdatePlaybackConfig (PlaybackConfig) returns (Empty) {}
+  rpc UpdatePlaybackTracking (Transform) returns (Empty) {}
+
+  // Read, modify and delete sources
+  rpc GetSourceIds (Empty) returns (IdList) {}
+  rpc GetSource (string) returns (Source) {}
+  rpc UpdateSource (Source) returns (Source) {}
+  rpc DeleteSource (string) returns (Empty) {}
+
+  // Read, modify and delete speakers
+  rpc GetSpeakerIds (Empty) returns (IdList) {}
+  rpc GetSpeaker (string) returns (Speaker) {}
+  rpc UpdateSpeaker (Speaker) returns (Speaker) {}
+  rpc DeleteSpeaker (string) returns (Empty) {}
+
+  // Read, modify and delete trajectories
+  rpc GetTrajectoryIds (Empty) returns (IdList) {}
+  rpc GetTrajectory (string) returns (Trajectory) {}
+  rpc UpdateTrajectory (Trajectory) returns (Trajectory) {}
+  rpc DeleteTrajectory (string) returns (Empty) {}
+
+  // Transmit audio file for playback
+  rpc UploadAudioFile (AudioFile) returns (string) {}
+}

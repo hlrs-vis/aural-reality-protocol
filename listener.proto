@@ -1,0 +1,9 @@
+edition = "2023";
+
+package auralreality;
+
+import "transform.proto";
+
+message Listener {
+  Transform transform = 1;
+}

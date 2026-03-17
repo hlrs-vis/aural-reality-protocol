@@ -1,0 +1,12 @@
+edition = "2023";
+
+package auralreality;
+
+import "vector.proto";
+import "rotation.proto";
+
+message Transform {
+  Vector position = 1;
+  Rotation rotation = 2;
+  float scale = 3;
+}

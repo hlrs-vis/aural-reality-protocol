@@ -1,0 +1,9 @@
+edition = "2023";
+
+package auralreality;
+
+message AudioFile {
+  string id = 1;
+  string filename = 2;
+  bytes data = 3;
+}

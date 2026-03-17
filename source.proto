@@ -1,0 +1,17 @@
+edition = "2023";
+
+package auralreality;
+
+import "transform.proto";
+
+message Source {
+  string id = 1;
+  string file_id = 2;
+  Transform transform = 3;
+  bool playing = 4;
+  float playback_position = 5;
+  bool loop = 6;
+  float gain = 7;
+  float pitch = 8;
+  bool positional = 9; // default true
+}

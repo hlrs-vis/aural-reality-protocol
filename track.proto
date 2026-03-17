@@ -1,0 +1,20 @@
+edition = "2023";
+
+package auralreality;
+
+import "transform.proto";
+
+// TODO: Do we process tracks (recorded movements) into trajectories
+// server-side or client-side?
+
+message TrackPoint {
+  Transform point = 1;
+  float time = 2;
+}
+
+message Track {
+  string id = 1;
+  repeated TrackPoint points = 1;
+}
+
+

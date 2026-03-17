@@ -1,0 +1,22 @@
+edition = "2023";
+
+package auralreality;
+
+import "transform.proto";
+
+message Speaker {
+  string id = 1;
+  Transform transform = 2;
+
+  // TODO: We need to decide which audio parameters we want to edit and transmit here 
+  float dispersion_horizontal = 3;
+  float dispersion_vertical = 4;
+  float cutoff_frequency_low = 5;
+  float cutoff_frequency_high = 6;
+  float maximum_sound_pressure_level = 7;
+  float power_handling = 8;
+
+  // TODO: 
+  // - What about frequency response (as 2D point data?)
+  // - What about sampled or mathematical representation of directivity?
+}

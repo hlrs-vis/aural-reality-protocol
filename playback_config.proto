@@ -1,0 +1,26 @@
+edition = "2023";
+
+package auralreality;
+
+import "transform.proto";
+
+enum PlaybackMode {
+  PLAYBACK_MODE_UNSPECIFIED = 0;
+  PLAYBACK_MODE_HEADPHONES = 1;
+  PLAYBACK_MODE_STEREO = 2;
+  PLAYBACK_MODE_SURROUND_51 = 3;
+  PLAYBACK_MODE_SURROUND_71 = 4;
+  PLAYBACK_MODE_CUSTOM = 10;
+}
+
+message PlaybackSpeaker  {
+  string name;
+  Transform transform;
+}
+
+message PlaybackConfig {
+  PlaybackMode playback_mode = 1;
+  float volume = 2;
+  bool mute = 3;
+  repeated PlaybackSpeaker custom_speakers = 4;
+}

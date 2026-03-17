@@ -1,0 +1,10 @@
+edition = "2023";
+
+package auralreality;
+
+message Empty {
+}
+
+message IdList {
+  repeated string ids = 1;
+}
