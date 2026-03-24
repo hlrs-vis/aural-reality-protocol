@@ -14,7 +14,5 @@ message TrackPoint {
 
 message Track {
   string id = 1;
-  repeated TrackPoint points = 1;
+  repeated TrackPoint points = 2;
 }
-
-

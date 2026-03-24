@@ -11,8 +11,8 @@ message TrajectoryPoint {
   Vector control_after = 3;
   float time = 4;
 
-  // TODO: 
-  // - do we track orientation, and if so, on anchor+controls or only on the anchor? 
+  // TODO:
+  // - do we track orientation, and if so, on anchor+controls or only on the anchor?
   // - do we track scale?
 }
 
@@ -22,4 +22,3 @@ message Trajectory {
   repeated TrajectoryPoint points = 3;
   bool closed = 4;
 }
-

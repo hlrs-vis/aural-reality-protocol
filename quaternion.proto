@@ -2,7 +2,7 @@ edition = "2023";
 
 package auralreality;
 
-message Quaterion {
+message Quaternion {
   float x = 1;
   float y = 2;
   float z = 3;
