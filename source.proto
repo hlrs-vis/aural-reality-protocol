@@ -13,5 +13,5 @@ message Source {
   bool loop = 6;
   float gain = 7;
   float pitch = 8;
-  bool positional = 9; // default true
+  bool positional = 9;  // default true
 }

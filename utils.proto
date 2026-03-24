@@ -5,6 +5,10 @@ package auralreality;
 message Empty {
 }
 
+message Id {
+  string id = 1;
+}
+
 message IdList {
   repeated string ids = 1;
 }

@@ -6,7 +6,7 @@ import "vector.proto";
 import "quaternion.proto";
 
 message Rotation {
-  required oneof content {
+  oneof content {
     Vector euler = 1;
     Quaternion quaternion = 2;
   }

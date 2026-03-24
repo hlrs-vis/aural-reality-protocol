@@ -13,9 +13,9 @@ enum PlaybackMode {
   PLAYBACK_MODE_CUSTOM = 10;
 }
 
-message PlaybackSpeaker  {
-  string name;
-  Transform transform;
+message PlaybackSpeaker {
+  string name = 1;
+  Transform transform = 2;
 }
 
 message PlaybackConfig {
