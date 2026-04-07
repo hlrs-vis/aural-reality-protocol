@@ -4,16 +4,14 @@ package auralreality;
 
 import "vector.proto";
 import "transform.proto";
+import "rotation.proto";
 
 message TrajectoryPoint {
   Vector anchor = 1;
   Vector control_before = 2;
   Vector control_after = 3;
   float time = 4;
-
-  // TODO:
-  // - do we track orientation, and if so, on anchor+controls or only on the anchor?
-  // - do we track scale?
+  Rotation rotation = 5;
 }
 
 message Trajectory {
