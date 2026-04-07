@@ -15,17 +15,6 @@ service TMTService {
   rpc Ping(Id) returns (Id) {
   }
 
-  // Modify the single global virtual listener, no list of items
-  rpc GetListener(Empty) returns (Listener) {
-  }
-  rpc UpdateListener(Listener) returns (Listener) {
-  }
-
-  rpc UpdatePlaybackConfig(PlaybackConfig) returns (Empty) {
-  }
-  rpc UpdatePlaybackTracking(Transform) returns (Empty) {
-  }
-
   // Read, modify and delete sources
   rpc GetSourceIds(Empty) returns (IdList) {
   }
