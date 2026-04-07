@@ -3,3 +3,4 @@ edition = "2023";
 package auralreality;
 
 import "tmt_service.proto";
+import "dat_service.proto";

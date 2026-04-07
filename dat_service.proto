@@ -1,0 +1,24 @@
+edition = "2023";
+
+package auralreality;
+
+import "utils.proto";
+import "transform.proto";
+import "listener.proto";
+import "playback_config.proto";
+
+service DATService {
+  rpc Ping(Id) returns (Id) {
+  }
+
+  // Modify the single global virtual listener, no list of items
+  rpc GetListener(Empty) returns (Listener) {
+  }
+  rpc UpdateListener(Listener) returns (Listener) {
+  }
+
+  rpc UpdatePlaybackConfig(PlaybackConfig) returns (Empty) {
+  }
+  rpc UpdatePlaybackTracking(Transform) returns (Empty) {
+  }
+}
