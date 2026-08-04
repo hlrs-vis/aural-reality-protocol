@@ -1,4 +1,5 @@
 edition = "2023";
+option optimize_for = LITE_RUNTIME;
 
 package auralreality;
 
