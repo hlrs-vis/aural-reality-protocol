@@ -1,0 +1,35 @@
+edition = "2023";
+
+package auralreality;
+
+import "rpc_options.proto";
+
+enum MessageType {
+  Request = 0;
+  Response = 1;
+}
+
+enum StatusCode {
+  Success = 0;
+
+  // protocol problems
+  UnknownMethod = 1;
+  InvalidArgument = 2;
+
+  // permission problems
+  PermissionDenied = 3;
+
+  // resource problems
+  NotFound = 4;
+  AlreadyExists = 5;
+
+  // internal problems
+  InternalError = 6;
+}
+
+message MessageHeader {
+  MessageType type = 1;
+  uint32 rpc_id = 2;
+  uint32 request_id = 3;
+  StatusCode status_code = 4;  // only used in responses
+}
