@@ -1,5 +1,4 @@
 edition = "2023";
-option optimize_for = LITE_RUNTIME;
 
 package auralreality;
 
@@ -11,42 +10,57 @@ import "speaker.proto";
 import "trajectory.proto";
 import "audio_file.proto";
 import "playback_config.proto";
+import "rpc_options.proto";
 
 service TMTService {
   rpc Ping(Id) returns (Id) {
+    option (rpc_id) = 1;
   }
 
   // Read, modify and delete sources
   rpc GetSourceIds(Empty) returns (IdList) {
+    option (rpc_id) = 2;
   }
   rpc GetSource(Id) returns (Source) {
+    option (rpc_id) = 3;
   }
   rpc UpdateSource(Source) returns (Source) {
+    option (rpc_id) = 4;
   }
   rpc DeleteSource(Id) returns (Empty) {
+    option (rpc_id) = 5;
   }
 
   // Read, modify and delete speakers
   rpc GetSpeakerIds(Empty) returns (IdList) {
+    option (rpc_id) = 6;
   }
   rpc GetSpeaker(Id) returns (Speaker) {
+    option (rpc_id) = 7;
   }
   rpc UpdateSpeaker(Speaker) returns (Speaker) {
+    option (rpc_id) = 8;
   }
   rpc DeleteSpeaker(Id) returns (Empty) {
+    option (rpc_id) = 9;
   }
 
   // Read, modify and delete trajectories
   rpc GetTrajectoryIds(Empty) returns (IdList) {
+    option (rpc_id) = 10;
   }
   rpc GetTrajectory(Id) returns (Trajectory) {
+    option (rpc_id) = 11;
   }
   rpc UpdateTrajectory(Trajectory) returns (Trajectory) {
+    option (rpc_id) = 12;
   }
   rpc DeleteTrajectory(Id) returns (Empty) {
+    option (rpc_id) = 13;
   }
 
   // Transmit audio file for playback
   rpc UploadAudioFile(AudioFile) returns (Id) {
+    option (rpc_id) = 14;
   }
 }

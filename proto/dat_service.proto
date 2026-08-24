@@ -1,5 +1,4 @@
 edition = "2023";
-option optimize_for = LITE_RUNTIME;
 
 package auralreality;
 
@@ -7,19 +6,25 @@ import "utils.proto";
 import "transform.proto";
 import "listener.proto";
 import "playback_config.proto";
+import "rpc_options.proto";
 
 service DATService {
   rpc Ping(Id) returns (Id) {
+    option (rpc_id) = 1;
   }
 
   // Modify the single global virtual listener, no list of items
   rpc GetListener(Empty) returns (Listener) {
+    option (rpc_id) = 2;
   }
   rpc UpdateListener(Listener) returns (Listener) {
+    option (rpc_id) = 3;
   }
 
   rpc UpdatePlaybackConfig(PlaybackConfig) returns (Empty) {
+    option (rpc_id) = 4;
   }
   rpc UpdatePlaybackTracking(Transform) returns (Empty) {
+    option (rpc_id) = 5;
   }
 }
