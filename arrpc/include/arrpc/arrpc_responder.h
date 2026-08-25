@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
 #include <utility>
 
 #include <google/protobuf/message_lite.h>
@@ -99,8 +98,6 @@ public:
 
         completed_ = true;
     }
-
-    void cancel() { error (RpcStatus::error (RpcStatus::Code::Cancelled, "RPC cancelled")); }
 
     [[nodiscard]]
     RequestId request_id() const noexcept

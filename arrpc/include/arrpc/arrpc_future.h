@@ -117,12 +117,6 @@ namespace detail
             callback (std::move (*result));
         }
 
-        void cancel()
-        {
-            complete (
-                Result::failure (RpcStatus::error (RpcStatus::Code::Cancelled, "RPC cancelled")));
-        }
-
         bool completed() const
         {
             std::lock_guard lock (mutex_);
