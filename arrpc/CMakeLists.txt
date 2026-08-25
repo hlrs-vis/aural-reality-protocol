@@ -67,7 +67,7 @@ foreach (proto IN LISTS PROTO_FILES)
         OUTPUT ${generated_files}
         COMMAND
             ${protoc_executable} ARGS -I${CMAKE_CURRENT_LIST_DIR}/../modules/protobuf/src --cpp_out
-            "${outputdir}" -I "${PROTO_INPUT_DIR}" --plugin="${arrpc_generator}"
+            "${outputdir}" -I "${PROTO_INPUT_DIR}" --plugin=protoc-gen-arrpc="${arrpc_generator}"
             --arrpc_out="${outputdir}" "${proto}"
         DEPENDS "${proto}"
         COMMENT "Generating sources from ${proto}"
