@@ -49,6 +49,7 @@ file (MAKE_DIRECTORY ${outputdir})
 set (protoc_executable $<TARGET_FILE:protoc>)
 set (arrpc_generator $<TARGET_FILE:protoc-gen-arrpc>)
 
+set (SERVICE_FILES ${PROTO_INPUT_DIR}/tmt_service.proto ${PROTO_INPUT_DIR}/dat_service.proto)
 foreach (proto IN LISTS PROTO_FILES)
     cmake_path (REMOVE_EXTENSION proto LAST_ONLY OUTPUT_VARIABLE stem)
 
@@ -57,8 +58,13 @@ foreach (proto IN LISTS PROTO_FILES)
 
     set (stem ${outputdir}/${rel_path})
 
+    set (generated_files ${stem}.pb.h ${stem}.pb.cc)
+    if (proto IN_LIST SERVICE_FILES)
+        list (APPEND generated_files ${stem}.rpc.h ${stem}.rpc.cc)
+    endif ()
+
     add_custom_command (
-        OUTPUT ${stem}.pb.h ${stem}.pb.cc
+        OUTPUT ${generated_files}
         COMMAND
             ${protoc_executable} ARGS -I${CMAKE_CURRENT_LIST_DIR}/../modules/protobuf/src --cpp_out
             "${outputdir}" -I "${PROTO_INPUT_DIR}" --plugin="${arrpc_generator}"
@@ -67,7 +73,7 @@ foreach (proto IN LISTS PROTO_FILES)
         COMMENT "Generating sources from ${proto}"
     )
 
-    target_sources (arrpc PRIVATE ${stem}.pb.cc ${stem}.pb.h)
+    target_sources (arrpc PRIVATE ${generated_files})
 endforeach ()
 
 # add custom target to clean generated files
@@ -76,10 +82,6 @@ add_custom_target (
     CleanAuralRealityProtocol COMMAND ${CMAKE_COMMAND} -E rm -f ${PROTO_SOURCES}
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
-
-# manually add service source files
-target_sources (arrpc PRIVATE ${outputdir}/tmt_service.rpc.h ${outputdir}/tmt_service.rpc.cc)
-target_sources (arrpc PRIVATE ${outputdir}/dat_service.rpc.h ${outputdir}/dat_service.rpc.cc)
 
 target_link_libraries (arrpc PUBLIC libprotobuf-lite utf8_validity)
 target_include_directories (arrpc PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${outputdir}/..)

@@ -552,7 +552,7 @@ private:
         out << "                ::rpc::RpcStatus::error(\n";
 
         out << "                    ::rpc::RpcStatus::Code::"
-            << "SerializationError,\n";
+            << "InvalidArgument,\n";
 
         out << "                    \"Invalid protobuf request\"));\n";
 
