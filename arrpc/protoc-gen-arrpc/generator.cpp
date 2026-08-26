@@ -152,6 +152,8 @@ private:
         return out.str();
     }
 
+    static bool IsEmpty (const Descriptor& descriptor) { return descriptor.name() == "Empty"; }
+
     static std::string CppType (const Descriptor& descriptor)
     {
         std::ostringstream out;
@@ -373,7 +375,12 @@ private:
 
             out << "    ::rpc::RpcFuture<" << output << "> " << method->name() << "(\n";
 
-            out << "        const " << input << "& request);\n\n";
+            if (! IsEmpty (*method->input_type()))
+            {
+                out << "        const " << input << "& request";
+            }
+
+            out << ");\n\n";
         }
 
         out << "private:\n";
@@ -471,6 +478,7 @@ private:
             const std::string output = CppType (*method->output_type());
 
             const std::string input = CppType (*method->input_type());
+            bool isEmpty = IsEmpty (*method->input_type());
 
             const std::uint32_t rpc_id = RpcId (*method);
 
@@ -478,9 +486,18 @@ private:
 
             out << name << "Client::" << method->name() << "(\n";
 
-            out << "    const " << input << "& request)\n";
+            if (! isEmpty)
+            {
+                out << "    const " << input << "& request";
+            }
+            out << ")\n";
 
             out << "{\n";
+
+            if (isEmpty)
+            {
+                out << "    " << input << " request;";
+            }
 
             out << "    return channel_.call<" << output << ">(\n";
 
