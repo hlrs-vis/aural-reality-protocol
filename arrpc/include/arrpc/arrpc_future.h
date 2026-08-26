@@ -74,59 +74,42 @@ namespace detail
         {
             Callback callback;
 
+            if (completed_)
             {
-                std::lock_guard lock (mutex_);
-
-                if (completed_)
-                {
-                    return;
-                }
-
-                result_ = std::move (result);
-                completed_ = true;
-
-                callback = std::move (callback_);
+                return;
             }
+
+            result_ = std::move (result);
+            completed_ = true;
+
+            callback = std::move (callback_);
 
             if (callback)
             {
                 callback (std::move (*result_));
             }
-
-            cv_.notify_all();
         }
 
         void set_callback (Callback callback)
         {
             std::optional<Result> result;
 
+            if (completed_)
             {
-                std::lock_guard lock (mutex_);
-
-                if (completed_)
-                {
-                    result = *result_;
-                }
-                else
-                {
-                    callback_ = std::move (callback);
-                    return;
-                }
+                result = *result_;
+            }
+            else
+            {
+                callback_ = std::move (callback);
+                return;
             }
 
             callback (std::move (*result));
         }
 
-        bool completed() const
-        {
-            std::lock_guard lock (mutex_);
-            return completed_;
-        }
+        bool completed() const { return completed_; }
 
     private:
-        mutable std::mutex mutex_;
-        std::condition_variable cv_;
-
         bool completed_ = false;
 
         std::optional<Result> result_;
