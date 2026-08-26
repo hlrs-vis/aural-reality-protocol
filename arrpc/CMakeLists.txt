@@ -16,6 +16,13 @@ if (ARRPC_DISABLE_ALL_WARNINGS)
     endif ()
 endif ()
 
+find_package(Protobuf CONFIG)
+
+if (NOT TARGET protobuf::libprotobuf-lite)
+    message(INFO "Building protobuf from source, as the package was not found.")
+    set(ARRPC_BUILD_PROTOBUF ON)
+endif()
+
 if (ARRPC_BUILD_PROTOBUF)
     # Configure abseil
     set (ABSL_MSVC_STATIC_RUNTIME ON)
@@ -34,8 +41,6 @@ if (ARRPC_BUILD_PROTOBUF)
 
     set(PROTO_EXTRA_INCLUDES "-I${CMAKE_CURRENT_LIST_DIR}/../modules/protobuf/src")
 else()
-    find_package(Protobuf CONFIG REQUIRED)
-
     set(PROTO_EXTRA_INCLUDES "")
 endif ()
 
