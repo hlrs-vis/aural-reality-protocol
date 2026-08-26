@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.20)
 
 project (aural_reality_rpc_generator LANGUAGES CXX)
 
-set (protoc_executable $<TARGET_FILE:protoc>)
+set (protoc_executable $<TARGET_FILE:protobuf::protoc>)
 
 set (outputdir ${CMAKE_CURRENT_BINARY_DIR}/rpc_options_generated)
 file (MAKE_DIRECTORY ${outputdir})
