@@ -6,6 +6,7 @@ set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project (arrpc LANGUAGES CXX)
 
 option (ARRPC_DISABLE_ALL_WARNINGS "Disable all warnings when building arrpc" OFF)
+option (ARRPC_BUILD_PROTOBUF "Build protobuf from source submodule" OFF)
 
 if (ARRPC_DISABLE_ALL_WARNINGS)
     if (MSVC)
@@ -15,20 +16,33 @@ if (ARRPC_DISABLE_ALL_WARNINGS)
     endif ()
 endif ()
 
-# Configure abseil
-set (ABSL_MSVC_STATIC_RUNTIME ON)
-add_subdirectory (
-    ${CMAKE_CURRENT_SOURCE_DIR}/../modules/abseil-cpp ${CMAKE_CURRENT_BINARY_DIR}/abseil-cpp
-    EXCLUDE_FROM_ALL
-)
+find_package(Protobuf CONFIG)
 
-# Configure protobuf
-set (protobuf_INSTALL OFF)
-set (protobuf_BUILD_SHARED_LIBS OFF)
-add_subdirectory (
-    ${CMAKE_CURRENT_SOURCE_DIR}/../modules/protobuf ${CMAKE_CURRENT_BINARY_DIR}/protobuf
-    EXCLUDE_FROM_ALL
-)
+if (NOT TARGET protobuf::libprotobuf-lite)
+    message(INFO "Building protobuf from source, as the package was not found.")
+    set(ARRPC_BUILD_PROTOBUF ON)
+endif()
+
+if (ARRPC_BUILD_PROTOBUF)
+    # Configure abseil
+    set (ABSL_MSVC_STATIC_RUNTIME ON)
+    add_subdirectory (
+        ${CMAKE_CURRENT_SOURCE_DIR}/../modules/abseil-cpp ${CMAKE_CURRENT_BINARY_DIR}/abseil-cpp
+        EXCLUDE_FROM_ALL
+    )
+
+    # Configure protobuf
+    set (protobuf_INSTALL OFF)
+    set (protobuf_BUILD_SHARED_LIBS OFF)
+    add_subdirectory (
+        ${CMAKE_CURRENT_SOURCE_DIR}/../modules/protobuf ${CMAKE_CURRENT_BINARY_DIR}/protobuf
+        EXCLUDE_FROM_ALL
+    )
+
+    set(PROTO_EXTRA_INCLUDES "-I${CMAKE_CURRENT_LIST_DIR}/../modules/protobuf/src")
+else()
+    set(PROTO_EXTRA_INCLUDES "")
+endif ()
 
 # Add protoc-gen-arrpc plugin
 add_subdirectory (
@@ -37,6 +51,7 @@ add_subdirectory (
 )
 
 add_library (arrpc STATIC)
+set_property(TARGET arrpc PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 # Collect all .proto files
 set (PROTO_INPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/../proto)
@@ -46,7 +61,7 @@ message (STATUS "Found proto files: ${PROTO_FILES}")
 set (outputdir ${CMAKE_CURRENT_BINARY_DIR}/generated/arrpc)
 file (MAKE_DIRECTORY ${outputdir})
 
-set (protoc_executable $<TARGET_FILE:protoc>)
+set (protoc_executable $<TARGET_FILE:protobuf::protoc>)
 set (arrpc_generator $<TARGET_FILE:protoc-gen-arrpc>)
 
 set (SERVICE_FILES ${PROTO_INPUT_DIR}/tmt_service.proto ${PROTO_INPUT_DIR}/dat_service.proto)
@@ -66,9 +81,14 @@ foreach (proto IN LISTS PROTO_FILES)
     add_custom_command (
         OUTPUT ${generated_files}
         COMMAND
-            ${protoc_executable} ARGS -I${CMAKE_CURRENT_LIST_DIR}/../modules/protobuf/src --cpp_out
-            "${outputdir}" -I "${PROTO_INPUT_DIR}" --plugin=protoc-gen-arrpc="${arrpc_generator}"
-            --arrpc_out="${outputdir}" "${proto}"
+            ${protoc_executable}
+        ARGS
+            --cpp_out "${outputdir}"
+            -I "${PROTO_INPUT_DIR}"
+            ${PROTO_EXTRA_INCLUDES}
+            --plugin=protoc-gen-arrpc="${arrpc_generator}"
+            --arrpc_out="${outputdir}"
+            "${proto}"
         DEPENDS "${proto}"
         COMMENT "Generating sources from ${proto}"
     )
@@ -78,10 +98,12 @@ endforeach ()
 
 # add custom target to clean generated files
 get_target_property (PROTO_SOURCES arrpc SOURCES)
+
 add_custom_target (
     CleanAuralRealityProtocol COMMAND ${CMAKE_COMMAND} -E rm -f ${PROTO_SOURCES}
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
-target_link_libraries (arrpc PUBLIC libprotobuf-lite utf8_validity)
+target_link_libraries (arrpc PUBLIC protobuf::libprotobuf-lite)
+
 target_include_directories (arrpc PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<BUILD_INTERFACE:${outputdir}/..>)
