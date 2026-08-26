@@ -164,4 +164,27 @@ private:
     std::shared_ptr<State> state_;
 };
 
+template <typename T>
+class RpcPromise
+{
+    using Future = RpcFuture<T>;
+    using Callback = Future::Callback;
+    using State = Future::State;
+
+public:
+    RpcPromise() : state_ (std::make_shared<State>()) {}
+    explicit RpcPromise (std::shared_ptr<State> state) : state_ (std::move (state)) {}
+    explicit RpcPromise (const RpcPromise<T>& copy) : state_ (copy.state_) {}
+    explicit RpcPromise (const RpcPromise<T>&& copy) : state_ (std::move (copy.state_)) {}
+
+    void result (Future::Result& result) { state_->complete (std::move (result)); }
+    void success (T t) { state_->complete (Future::Result::success (t)); }
+    void failure (RpcStatus status) { state_->complete (Future::Result::failure (status)); }
+
+    Future future() { return Future (state_); }
+
+private:
+    std::shared_ptr<State> state_;
+};
+
 } // namespace rpc
