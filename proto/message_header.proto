@@ -25,6 +25,7 @@ enum StatusCode {
 
   // internal problems
   InternalError = 6;
+  SerializationError = 7;
 }
 
 message MessageHeader {
