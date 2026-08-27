@@ -114,7 +114,7 @@ public:
 private:
     RpcServerConnection* connection_ = nullptr;
     RequestId request_id_ = 0;
-    bool completed_ = true;
+    bool completed_ = false;
 };
 
 } // namespace rpc
