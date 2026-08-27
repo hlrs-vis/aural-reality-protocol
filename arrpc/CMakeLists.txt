@@ -83,5 +83,5 @@ add_custom_target (
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
-target_link_libraries (arrpc PUBLIC libprotobuf-lite utf8_validity)
+target_link_libraries (arrpc PUBLIC libprotobuf utf8_validity)
 target_include_directories (arrpc PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<BUILD_INTERFACE:${outputdir}/..>)
