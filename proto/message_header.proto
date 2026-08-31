@@ -31,6 +31,7 @@ enum StatusCode {
 message MessageHeader {
   MessageType type = 1;
   uint32 rpc_id = 2;
-  uint32 request_id = 3;
+  uint64 request_id = 3;
   StatusCode status_code = 4;  // only used in responses
+  string error_message = 5;    // only used in responses
 }
