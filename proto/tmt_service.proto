@@ -63,4 +63,11 @@ service TMTService {
   rpc UploadAudioFile(AudioFile) returns (Id) {
     option (rpc_id) = 14;
   }
+
+  rpc GetListener(Empty) returns (Listener) {
+    option (rpc_id) = 15;
+  }
+  rpc UpdateListener(Listener) returns (Listener) {
+    option (rpc_id) = 16;
+  }
 }
