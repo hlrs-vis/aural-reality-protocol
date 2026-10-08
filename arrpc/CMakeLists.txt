@@ -16,7 +16,9 @@ if (ARRPC_DISABLE_ALL_WARNINGS)
     endif ()
 endif ()
 
-find_package(Protobuf CONFIG)
+if (NOT ARRPC_BUILD_PROTOBUF)
+    find_package(Protobuf CONFIG)
+endif()
 
 if (NOT TARGET protobuf::libprotobuf-lite)
     message(INFO "Building protobuf from source, as the package was not found.")
