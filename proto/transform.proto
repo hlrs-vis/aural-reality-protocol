@@ -8,5 +8,5 @@ import "rotation.proto";
 message Transform {
   Vector position = 1;
   Rotation rotation = 2;
-  float scale = 3;
+  Vector scale = 3;
 }
