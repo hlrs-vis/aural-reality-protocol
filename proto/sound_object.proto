@@ -1,0 +1,31 @@
+edition = "2023";
+
+package auralreality;
+
+import "transform.proto";
+import "vector.proto";
+
+message SoundObject {
+  Vector abs_position = 1; // absolute position in space
+  Transform transform = 2;
+  string sound_uuid = 3; // which sound is played
+  string sound_item_uuid = 4;
+  string choreography_uuid = 5; // the choreography having the sound item
+  string parent_choreography_item_uuid = 6;
+  string trajectory_uuid = 7; // optional
+  float trajectory_progress = 8; // 0 if no trajectory
+}
+
+message ChoreographyContext {
+  Transform transform = 1;
+  string choreography_item_uuid = 2;
+  string choreography_uuid = 3; // the choreography having the choreography item
+  string parent_choreography_item_uuid = 4; // optional
+  string trajectory_uuid = 5; // optional
+  float trajectory_progress = 6; // 0 if no trajectory
+}
+
+message SoundObjectsState {
+  repeated ChoreographyContext choreography_contexts = 1;
+  repeated SoundObject sound_objects = 2;
+}
