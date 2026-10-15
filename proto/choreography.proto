@@ -4,15 +4,12 @@ package auralreality;
 
 import "transform.proto";
 
-enum ChoreographyElementType {
-    SoundItem = 0;
-    ChoreographyItem = 1;
-}
-
 message ChoreographyElement {
     string id = 1;
-    ChoreographyElementType type = 2;
-    string reference_id = 3;
+    oneof reference {
+        string sound_id = 2;
+        string choreography_id = 3;
+    }
     Transform transform = 4;
     string trajectory_id = 5;
 }
