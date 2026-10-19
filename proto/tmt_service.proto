@@ -11,6 +11,7 @@ import "trajectory.proto";
 import "audio_file.proto";
 import "playback_config.proto";
 import "rpc_options.proto";
+import "ui_state.proto";
 
 service TMTService {
   rpc Ping(Id) returns (Id) {
@@ -69,5 +70,9 @@ service TMTService {
   }
   rpc UpdateListener(Listener) returns (Listener) {
     option (rpc_id) = 16;
+  }
+
+  rpc GetUIState(Empty) returns (UIState) {
+    option (rpc_id) = 21;
   }
 }
