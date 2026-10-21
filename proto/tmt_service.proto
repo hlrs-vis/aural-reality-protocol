@@ -11,6 +11,8 @@ import "trajectory.proto";
 import "audio_file.proto";
 import "playback_config.proto";
 import "rpc_options.proto";
+import "ui_state.proto";
+import "choreography.proto";
 
 service TMTService {
   rpc Ping(Id) returns (Id) {
@@ -69,5 +71,21 @@ service TMTService {
   }
   rpc UpdateListener(Listener) returns (Listener) {
     option (rpc_id) = 16;
+  }
+
+  rpc GetChoreographyIds(Empty) returns (IdList) {
+    option (rpc_id) = 17;
+  }
+
+  rpc GetChoreography(Id) returns (Choreography) {
+    option (rpc_id) = 18;
+  }
+
+  rpc UpdateChoreography(Choreography) returns (Choreography) {
+    option (rpc_id) = 19;
+  }
+
+  rpc GetUIState(Empty) returns (UIState) {
+    option (rpc_id) = 21;
   }
 }

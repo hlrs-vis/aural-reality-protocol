@@ -1,0 +1,21 @@
+edition = "2023";
+
+package auralreality;
+
+import "transform.proto";
+
+message ChoreographyElement {
+    string id = 1;
+    oneof reference {
+        string sound_id = 2;
+        string choreography_id = 3;
+    }
+    Transform transform = 4;
+    string trajectory_id = 5;
+}
+
+message Choreography {
+    string id = 1;
+    string name = 2;
+    repeated ChoreographyElement persisting_elements = 3;
+}
