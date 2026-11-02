@@ -5,27 +5,29 @@ package auralreality;
 import "transform.proto";
 import "vector.proto";
 
-message SoundObject {
-  Vector abs_position = 1; // absolute position in space
-  Transform transform = 2;
-  string sound_uuid = 3; // which sound is played
-  string sound_item_uuid = 4;
-  string choreography_uuid = 5; // the choreography having the sound item
-  string parent_choreography_item_uuid = 6;
-  string trajectory_uuid = 7; // optional
-  float trajectory_progress = 8; // 0 if no trajectory
-}
+message ChoreographyElementInstance {
+  string id = 1;
+  oneof reference {
+        string sound_id = 2;
+        string choreography_id = 3;
+    }
 
-message ChoreographyContext {
-  Transform transform = 1;
-  string choreography_item_uuid = 2;
-  string choreography_uuid = 3; // the choreography having the choreography item
-  string parent_choreography_item_uuid = 4; // optional
-  string trajectory_uuid = 5; // optional
-  float trajectory_progress = 6; // 0 if no trajectory
+  Transform local_transform = 4; // local transform
+  Transform global_transform = 5; // global transform
+  string sound_id = 6; // which sound is played
+
+  // the following two define which ChoreographySoundElement placed this sound object
+  string choreography_element_id = 7; // this will be a sound element
+
+  // relates to another ChoreographyElementInstance, see 1
+  // if not parent this will be empty
+  string parent_id = 8;
+
+  string trajectory_id = 9; // optional
+  Transform trajectory_transform = 10; // optional, transform of the trajectory (without position)
+  float trajectory_progress = 11; // 0 if no trajectory
 }
 
 message SoundObjectsState {
-  repeated ChoreographyContext choreography_contexts = 1;
-  repeated SoundObject sound_objects = 2;
+  repeated ChoreographyElementInstance choreography_element_instances = 1;
 }

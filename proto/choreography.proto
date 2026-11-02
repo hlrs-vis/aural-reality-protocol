@@ -11,11 +11,14 @@ message ChoreographyElement {
         string choreography_id = 3;
     }
     Transform transform = 4;
+
     string trajectory_id = 5;
+    Transform trajectory_transform = 6;
 }
 
 message Choreography {
     string id = 1;
     string name = 2;
     repeated ChoreographyElement persisting_elements = 3;
+    repeated ChoreographyElement scheduled_elements = 4;
 }
