@@ -10,3 +10,17 @@ message Transform {
   Rotation rotation = 2;
   Vector scale = 3;
 }
+
+message Row {
+  float col1 = 1;
+  float col2 = 2;
+  float col3 = 3;
+  float col4 = 4;
+}
+
+message Matrix {
+  Row row1 = 1;
+  Row row2 = 2;
+  Row row3 = 3;
+  Row row4 = 4;
+}
