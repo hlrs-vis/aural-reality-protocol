@@ -1,0 +1,30 @@
+edition = "2023";
+
+package auralreality;
+
+import "transform.proto";
+
+message ChoreographyElementInstance {
+  string id = 1; // the instance id
+  oneof reference {
+        string sound_id = 2;
+        string choreography_id = 3;
+    }
+
+  Transform local_transform = 4; // local transform
+  Matrix global_transform = 5; // global transform
+
+  string choreography_element_id = 6; // state id
+
+  // relates to another ChoreographyElementInstance, see 1
+  // if not parent this will be empty
+  string parent_id = 7; // an instance id, "main" if belongs to the main choreography
+
+  string trajectory_id = 8; // optional
+  Transform trajectory_transform = 9; // optional, transform of the trajectory (without position)
+  float trajectory_progress = 10; // 0 if no trajectory
+}
+
+message SoundObjectsState {
+  repeated ChoreographyElementInstance choreography_element_instances = 1;
+}

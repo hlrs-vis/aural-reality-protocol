@@ -1,0 +1,19 @@
+edition = "2023";
+
+package auralreality;
+
+enum UIPage
+{
+    None = 0;
+    Home = 1;
+    Project = 2;
+    AudioAssets = 3;
+    Trajectories = 4;
+    Sounds = 5;
+    Choreographies = 6;
+}
+
+message UIState {
+    UIPage currentPage = 1;
+    string selectedItemId = 2;
+}
